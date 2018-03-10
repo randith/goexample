@@ -1,0 +1,32 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Go template
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# vendor directory created via 'dep ensure'
+# my instinct is we should check in the vendor directory, but I am going the opposite way to start with
+# _vendor is older dependencies backed up
+vendor
+_vendor-*
+
+# coverage info part of test.sh script
+coverage.txt
+
+# binary directory, keep the README.md so the directory always exists
+bin/*
+!bin/README.md
