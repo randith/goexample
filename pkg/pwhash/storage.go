@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"sync"
+	"time"
 )
 
 var (
@@ -36,14 +37,19 @@ func (store *inMemoryStore) Get(key string) (string, error) {
 	return v, nil
 }
 
-func (store *inMemoryStore) Set(val string) (string, error) {
+func setSlow(store *inMemoryStore, key string, val string) {
+	time.Sleep(5 * time.Second)
 	store.lck.Lock()
 	defer store.lck.Unlock()
+	store.data[key] = val
+}
+
+func (store *inMemoryStore) Set(val string) (string, error) {
 	key, err := genId()
 	if err != nil {
 		return "", err
 	}
-	store.data[key] = val
+	go setSlow(store, key, val)
 	return key, nil
 }
 

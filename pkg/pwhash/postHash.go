@@ -42,9 +42,8 @@ func PostHashHandler(store Store, stats Stats) http.Handler {
 		rw.Header().Set("Content-Type", "text/plain")
 
 		io.WriteString(rw, key)
-		time.Sleep(5 * time.Second)
 		duration := time.Now().Sub(start)
-		stats.Time(duration.Nanoseconds() / int64(time.Millisecond))
+		stats.Time(duration.Nanoseconds() / int64(time.Microsecond))
 		log.Printf("PostHashHandler complete in %s ", duration)
 	})
 }

@@ -6,12 +6,12 @@ import (
 
 type StatsResponse struct {
 	Total   int64 `json:"total"`
-	Average int64 `json:"average"`
+	Average int64 `json:"averageInMicroSec"`
 }
 
 type Stats interface {
 	Get() StatsResponse
-	Time(millis int64)
+	Time(micros int64)
 }
 
 type inMemoryStats struct {
@@ -34,9 +34,9 @@ func (stats *inMemoryStats) Get() StatsResponse {
 	return StatsResponse{Total: stats.count, Average: Average}
 }
 
-func (stats *inMemoryStats) Time(millis int64) {
+func (stats *inMemoryStats) Time(micros int64) {
 	stats.lck.Lock()
 	defer stats.lck.Unlock()
 	stats.count++
-	stats.totalTime += millis
+	stats.totalTime += micros
 }

@@ -48,7 +48,6 @@ func Test_hashAndEncodeTests(t *testing.T) {
 	}
 }
 
-// TODO 5 seconds for this test is way too long, need to refactor to either mock something that does the sleep or send in a very short sleep
 func Test_PostHashHandler(t *testing.T) {
 	// Create a request to pass to our handler. We don't have any query parameters for now, so we'll
 	// pass 'nil' as the third parameter.

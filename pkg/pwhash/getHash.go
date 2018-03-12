@@ -35,7 +35,7 @@ func GetHashHandler(store Store, stats Stats) http.Handler {
 		io.WriteString(rw, hash)
 
 		duration := time.Now().Sub(start)
-		stats.Time(duration.Nanoseconds() / int64(time.Millisecond))
+		stats.Time(duration.Nanoseconds() / int64(time.Microsecond))
 		log.Printf("GetHashHandler complete in %s", duration)
 	})
 }

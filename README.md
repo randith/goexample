@@ -5,6 +5,7 @@
 2. I started running short on time so I did not add tests for 4-6.  I would add these as well as a round-trip test using the endpoints.
 3. I interpreted step 6 "hash requests" to include creating and getting the hashes
 4. I left TODO comments in the code to shed light on my thoughts.  I do not like leaving them in the code normally as they grow stale fast.
+5. I also used microseconds for stats as it was more interesting
 
 ## running
 1. prerequisites
