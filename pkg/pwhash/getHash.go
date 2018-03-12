@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func GetHashHandler(store Store) http.Handler {
+func GetHashHandler(store Store, stats Stats) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		start := time.Now()
 		if req.Method != "GET" {
@@ -34,6 +34,8 @@ func GetHashHandler(store Store) http.Handler {
 		rw.Header().Set("Content-Type", "text/plain")
 		io.WriteString(rw, hash)
 
-		log.Printf("GetHashHandler complete in %s", time.Now().Sub(start))
+		duration := time.Now().Sub(start)
+		stats.Time(duration.Nanoseconds() / int64(time.Millisecond))
+		log.Printf("GetHashHandler complete in %s", duration)
 	})
 }

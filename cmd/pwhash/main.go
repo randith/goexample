@@ -23,7 +23,7 @@ func startHttpServer(store pwhash.Store, statsStore pwhash.Stats) *http.Server {
 	srv := &http.Server{Addr: ":8080"}
 
 	http.Handle("/hash", pwhash.PostHashHandler(store, statsStore))
-	http.Handle("/hash/", pwhash.GetHashHandler(store))
+	http.Handle("/hash/", pwhash.GetHashHandler(store, statsStore))
 	http.Handle("/shutdown", pwhash.PostShutdownHandler(srv))
 	http.Handle("/stats", pwhash.GetStatsHandler(statsStore))
 
