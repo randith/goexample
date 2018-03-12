@@ -58,7 +58,7 @@ func Test_PostHashHandler(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler := PostHashHandler()
+	handler := PostHashHandler(NewInMemoryStore())
 
 	// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 	// directly and pass in our Request and ResponseRecorder.
@@ -66,14 +66,11 @@ func Test_PostHashHandler(t *testing.T) {
 
 	// Check the status code is what we expect.
 	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
+		t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
 
-	// Check the response body is what we expect.
-	expected := hashAndEncodeTests[0].out
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: actual='%v' expected='%v'",
-			rr.Body.String(), expected)
+	// Check the response body is not empty, it should be a key
+	if rr.Body.String() == "" {
+		t.Errorf("handler returned enoty body that should be a key")
 	}
 }

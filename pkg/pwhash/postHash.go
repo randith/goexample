@@ -13,7 +13,7 @@ import (
 )
 
 // TODO determine way to mock method calls (parseBodyForPw, hashAndB64Encode and timeSleep) for better encapsulated testing
-func PostHashHandler() http.Handler {
+func PostHashHandler(store Store, stats Stats) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		start := time.Now()
 		if req.Method != "POST" {
@@ -31,16 +31,23 @@ func PostHashHandler() http.Handler {
 
 		encoded := hashAndB64Encode(pwInput)
 		//log.Printf("password form value='%s' hash='%s'", pwInput, encoded)
+		key, err := store.Set(encoded)
+		if err != nil {
+			log.Printf("Error setting encoded value into the store: %v", err)
+			http.Error(rw, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
 
 		rw.WriteHeader(http.StatusOK)
 		rw.Header().Set("Content-Type", "text/plain")
 
-		io.WriteString(rw, encoded)
+		io.WriteString(rw, key)
 		time.Sleep(5 * time.Second)
-		log.Printf("PostHashHandler complete in %s ", time.Now().Sub(start))
+		duration := time.Now().Sub(start)
+		stats.Time(duration.Nanoseconds() / int64(time.Millisecond))
+		log.Printf("PostHashHandler complete in %s ", duration)
 	})
 }
-
 
 /**
  * parse byte[] that looks like password=thePassword
@@ -66,4 +73,3 @@ func hashAndB64Encode(input string) string {
 	hasher.Write([]byte(input))
 	return base64.StdEncoding.EncodeToString(hasher.Sum(nil))
 }
-
