@@ -2,21 +2,26 @@ package main
 
 import (
 	"net/http"
-	"log"
 	"github.com/randith/goexample/pkg/pwhash"
+	"time"
+	"log"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	// get the value of a key
-	mux.HandleFunc("/hash", pwhash.PostHashHandler)
-	// set the value of a key
+	srv := startHttpServer()
+	srv.ListenAndServe()
 
-	log.Printf("starting server on port 8080")
+	// giving time after stop listening to finish up active requests
+	time.Sleep(10 * time.Second)
+	log.Printf("main: done. exiting")
+}
 
-	// http.ListenAndServe takes in an http.Handler as its second parameter.
-	// since ServeMux implements a ServeHTTP function, it is also an http.Handler,
-	// so we can pass it here.
-	err := http.ListenAndServe(":8080", mux)
-	log.Fatal(err)
+func startHttpServer() *http.Server {
+	log.Print("Starting server on port 8080")
+	srv := &http.Server{Addr: ":8080"}
+
+	http.Handle("/hash", pwhash.PostHashHandler())
+	http.Handle("/shutdown", pwhash.PostShutdownHandler(srv))
+
+	return srv
 }

@@ -13,31 +13,34 @@ import (
 )
 
 // TODO determine way to mock method calls (parseBodyForPw, hashAndB64Encode and timeSleep) for better encapsulated testing
-func PostHashHandler(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
-	if r.Method != "POST" {
-		w.WriteHeader(http.StatusNotFound)
-		log.Printf("/hash http method %s is not supported", r.Method)
-		return
-	}
+func PostHashHandler() http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		start := time.Now()
+		if req.Method != "POST" {
+			rw.WriteHeader(http.StatusNotFound)
+			log.Printf("/hash http method %s is not supported", req.Method)
+			return
+		}
 
-	pwInput, err := parseBodyForPw(r.Body)
-	if err != nil {
-		log.Printf("Error reading body: %v", err)
-		http.Error(w, "can't read body", http.StatusBadRequest)
-		return
-	}
+		pwInput, err := parseBodyForPw(req.Body)
+		if err != nil {
+			log.Printf("Error reading body: %v", err)
+			http.Error(rw, "can't read body", http.StatusBadRequest)
+			return
+		}
 
-	encoded := hashAndB64Encode(pwInput)
-	//log.Printf("password form value='%s' hash='%s'", pwInput, encoded)
+		encoded := hashAndB64Encode(pwInput)
+		//log.Printf("password form value='%s' hash='%s'", pwInput, encoded)
 
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "text/plain")
+		rw.WriteHeader(http.StatusOK)
+		rw.Header().Set("Content-Type", "text/plain")
 
-	io.WriteString(w, encoded)
-	time.Sleep(5 * time.Second)
-	log.Printf("PostHashHandler complete in %s ", time.Now().Sub(start))
+		io.WriteString(rw, encoded)
+		time.Sleep(5 * time.Second)
+		log.Printf("PostHashHandler complete in %s ", time.Now().Sub(start))
+	})
 }
+
 
 /**
  * parse byte[] that looks like password=thePassword
