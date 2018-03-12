@@ -1,10 +1,10 @@
 package pwhash
 
 import (
-	"time"
-	"net/http"
-	"log"
 	"context"
+	"log"
+	"net/http"
+	"time"
 )
 
 func PostShutdownHandler(srv *http.Server) http.Handler {
@@ -17,7 +17,7 @@ func PostShutdownHandler(srv *http.Server) http.Handler {
 		}
 
 		log.Printf("PostShutdownHandler issuing server shutdown")
-		ctx, _ := context.WithTimeout(context.Background(), 9 * time.Second)
+		ctx, _ := context.WithTimeout(context.Background(), 9*time.Second)
 
 		srv.Shutdown(ctx)
 

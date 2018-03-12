@@ -1,15 +1,15 @@
 package pwhash
 
 import (
-	"net/http"
-	"log"
-	"encoding/base64"
 	"crypto/sha512"
-	"io"
-	"time"
-	"io/ioutil"
-	"strings"
+	"encoding/base64"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
+	"time"
 )
 
 // TODO determine way to mock method calls (parseBodyForPw, hashAndB64Encode and timeSleep) for better encapsulated testing

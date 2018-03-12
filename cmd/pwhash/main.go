@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net/http"
 	"github.com/randith/goexample/pkg/pwhash"
-	"time"
 	"log"
+	"net/http"
+	"time"
 )
 
 func main() {

@@ -1,10 +1,10 @@
 package pwhash
 
 import (
-	"time"
-	"net/http"
-	"log"
 	"encoding/json"
+	"log"
+	"net/http"
+	"time"
 )
 
 func GetStatsHandler(stats Stats) http.Handler {

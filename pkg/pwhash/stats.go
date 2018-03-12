@@ -10,24 +10,24 @@ type StatsResponse struct {
 }
 
 type Stats interface {
-	Get() (StatsResponse)
+	Get() StatsResponse
 	Time(millis int64)
 }
 
 type inMemoryStats struct {
 	totalTime int64
-	count int64
-	lck  sync.RWMutex
+	count     int64
+	lck       sync.RWMutex
 }
 
 func NewInMemoryStats() Stats {
 	return &inMemoryStats{}
 }
 
-func (stats *inMemoryStats) Get() (StatsResponse) {
+func (stats *inMemoryStats) Get() StatsResponse {
 	stats.lck.RLock()
 	defer stats.lck.RUnlock()
-	Average := (int64) (0)
+	Average := (int64)(0)
 	if stats.count != 0 {
 		Average = stats.totalTime / stats.count
 	}

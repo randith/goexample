@@ -1,11 +1,11 @@
 package pwhash
 
 import (
-	"net/http"
-	"log"
-	"time"
-	"strings"
 	"io"
+	"log"
+	"net/http"
+	"strings"
+	"time"
 )
 
 func GetHashHandler(store Store) http.Handler {

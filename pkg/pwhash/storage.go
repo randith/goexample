@@ -1,10 +1,10 @@
 package pwhash
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"sync"
-	"encoding/hex"
-	"crypto/rand"
 )
 
 var (

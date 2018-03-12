@@ -1,5 +1,5 @@
 FROM scratch
 
-ADD bin/pa-jsonpath /
+ADD bin/pwhash /
 
-CMD ["/pa-jsonpath"]
+CMD ["/pwhash"]

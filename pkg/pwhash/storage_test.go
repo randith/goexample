@@ -7,7 +7,7 @@ import (
 /**
  * simplistic minimal testing, given time should extend testing to the interesting bit which is locking access
  */
-func Test_inMemoryStore(testing *testing.T)  {
+func Test_inMemoryStore(testing *testing.T) {
 	store := NewInMemoryStore()
 
 	value1 := "value 1"
